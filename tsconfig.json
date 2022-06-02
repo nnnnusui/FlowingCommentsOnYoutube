@@ -13,7 +13,10 @@
       ],
       "types": [
           "@types/chrome",
+          "vite/client",
       ],
+      "jsx": "preserve",
+      "jsxImportSource": "solid-js",
       "importHelpers": true,
       "removeComments": true,
       "forceConsistentCasingInFileNames": true,
