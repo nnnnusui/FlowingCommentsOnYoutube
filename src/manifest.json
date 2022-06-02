@@ -1,0 +1,13 @@
+{
+  "name": "FlowingCommentsOnYoutube",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "description": "",
+  "content_scripts": [{
+    "matches": [ "https://www.youtube.com/watch*" ],
+    "js": ["main.tsx"]
+  }],
+  "host_permissions": [
+    "https://www.youtube.com/watch*"
+  ]
+}
