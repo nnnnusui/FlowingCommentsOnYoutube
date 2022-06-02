@@ -1,6 +1,8 @@
 import { render } from "solid-js/web";
 import App from "./component/App";
 
+import manifest from "./manifest.json";
+
 const waitAppearance = <T,>(
   getThing: () => T | null | undefined,
   interval = 100,
@@ -19,7 +21,7 @@ const waitAppearance = <T,>(
   });
 };
 
-const extensionName = "FlowingCommentsOnYoutube";
+const extensionName = manifest.name;
 const launchMessage = `Load extension '${extensionName}'.`;
 const main = async () => {
   console.log(`start [${launchMessage}] ->`);
