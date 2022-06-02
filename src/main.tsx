@@ -1,11 +1,12 @@
 import { render } from "solid-js/web";
+import App from "./component/App";
 
 const waitAppearance = <T,>(
-  getThing: () => T | null,
+  getThing: () => T | null | undefined,
   interval = 100,
-  timeout = undefined
+  timeout = undefined,
 ) => {
-  return new Promise<T>(resolve => {
+  return new Promise<T>((resolve) => {
     const expireTime = timeout && Date.now() + timeout;
     const intervalId = window.setInterval(() => {
       const expired = expireTime && expireTime < Date.now();
@@ -23,12 +24,13 @@ const launchMessage = `Load extension '${extensionName}'.`;
 const main = async () => {
   console.log(`start [${launchMessage}] ->`);
 
-  const video = await waitAppearance<HTMLElement>(() =>
-    document.querySelector(".video-stream")
+  const renderTargetContainer = await waitAppearance<HTMLElement>(() =>
+    document
+      ?.querySelector('#player')
+      ?.querySelector("#player-container"),
   );
-  const renderTarget = video;
-  console.log(`renderTarget: ${renderTarget}`);
-  render(() => <div id={extensionName} />, renderTarget);
+  console.log(`renderTarget: ${renderTargetContainer}`);
+  render(() => <App />, renderTargetContainer);
 
   console.log(`<- end [${launchMessage}]`);
 };
