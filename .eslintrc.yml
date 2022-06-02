@@ -8,9 +8,36 @@ parserOptions:
   sourceType: module
 plugins:
   - "@typescript-eslint"
+  - "react"
+  - "solid"
 extends:
   - "eslint:recommended"
+  - "plugin:react/recommended"
+  - "plugin:solid/recommended"
   - "plugin:@typescript-eslint/recommended"
   - "plugin:@typescript-eslint/eslint-recommended"
+settings:
+  react:
+    version: "15.0"
 rules:
-  "@typescript-eslint/no-empty-function": "off"
+  "@typescript-eslint/no-empty-function": off
+  indent:
+    - error
+    - 2
+  comma-dangle:
+    - error
+    - always-multiline
+  arrow-parens:
+    - error
+    - always
+  react/react-in-jsx-scope: off
+  react/jsx-wrap-multilines:
+    - "error"
+    -
+      "declaration": "parens-new-line"
+      "assignment": "parens-new-line"
+      "return": "parens-new-line"
+      "arrow": "parens-new-line"
+      "condition": "parens-new-line"
+      "logical": "ignore"
+      "prop": "ignore"
