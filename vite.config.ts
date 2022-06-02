@@ -5,18 +5,18 @@ import solidPlugin from 'vite-plugin-solid';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    resolve: {
-        alias: {
-            "@": resolve(__dirname, "src"),
-        },
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "src"),
     },
-    build: {
-        rollupOptions: {
-            input: "src/manifest.json"
-        }
+  },
+  build: {
+    rollupOptions: {
+      input: "src/manifest.json",
     },
-    plugins: [
-        chromeExtension(),
-        solidPlugin()
-    ],
+  },
+  plugins: [
+    chromeExtension(),
+    solidPlugin(),
+  ],
 })
