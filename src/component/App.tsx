@@ -1,12 +1,15 @@
-import { Component } from "solid-js";
+import { Component, Show } from "solid-js";
 
+import DebugInfo from "./DebugInfo";
 import styles from './App.module.styl';
-import manifest from "../manifest.json";
 
 const App: Component = () => {
+  const showDebugInfo = true;
   return (
     <div class={styles.App}>
-      <h1>Chrome extension `{manifest.name}` in Dev.</h1>
+      <Show when={showDebugInfo}>
+        <DebugInfo />
+      </Show>
     </div>
   );
 };
