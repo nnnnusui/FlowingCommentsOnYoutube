@@ -1,6 +1,6 @@
 import { render } from "solid-js/web";
 import App from "./component/App";
-import GetInPageElement from "./script/InPageElement"
+import {getCommentRiverRenderTargetContainer} from "./script/InPageElement";
 
 import manifest from "./manifest.json";
 
@@ -9,8 +9,7 @@ const launchMessage = `Load extension '${extensionName}'.`;
 const main = async () => {
   console.log(`start [${launchMessage}] ->`);
 
-  const inPageElement = await GetInPageElement();
-  render(() => <App />, inPageElement.commentRiverRenderTargetContainer);
+  render(() => <App />, await getCommentRiverRenderTargetContainer());
 
   console.log(`<- end [${launchMessage}]`);
 };

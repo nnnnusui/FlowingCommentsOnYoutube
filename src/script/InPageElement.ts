@@ -16,7 +16,7 @@ const waitAppearance = <T,>(
   });
 };
 
-const getCommentRiverRenderTargetContainer = () =>
+export const getCommentRiverRenderTargetContainer = () =>
   waitAppearance<HTMLElement>(() =>
     document
       ?.querySelector('#player')
