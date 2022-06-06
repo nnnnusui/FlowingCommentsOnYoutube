@@ -8,6 +8,7 @@ parserOptions:
   sourceType: module
 plugins:
   - "@typescript-eslint"
+  - unused-imports
   - "react"
   - "solid"
 extends:
@@ -21,6 +22,7 @@ settings:
     version: "15.0"
 rules:
   "@typescript-eslint/no-empty-function": off
+  unused-imports/no-unused-imports-ts: warn
   semi:
     - error
     - always
