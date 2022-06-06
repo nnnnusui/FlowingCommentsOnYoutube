@@ -1,3 +1,5 @@
+import ChatComment from "../type/ChatComment";
+
 const waitAppearance = <T,>(
   getThing: () => T | null | undefined,
   interval = 100,
@@ -16,6 +18,13 @@ const waitAppearance = <T,>(
   });
 };
 
+const waitLoaded = (
+  target: HTMLIFrameElement
+) =>
+  new Promise<HTMLIFrameElement>((resolve) => {
+    target.addEventListener("load", () => resolve(target));
+  });
+
 export const getCommentRiverRenderTargetContainer = () =>
   waitAppearance<HTMLElement>(() =>
     document
@@ -23,10 +32,39 @@ export const getCommentRiverRenderTargetContainer = () =>
       ?.querySelector("#player-container")
   );
 
-const GetInPageElement = async () => {
-  return {
-    commentRiverRenderTargetContainer: await getCommentRiverRenderTargetContainer(),
-  }
-}
-
-export default GetInPageElement
+export const getNewChatMessageObserver = async (
+  observe: (comments: ChatComment[]) => void
+) => {
+  const iframe =
+    await waitAppearance(() =>
+      document
+        ?.querySelector<HTMLIFrameElement>('#chatframe')
+    )
+      .then(waitLoaded);
+  const target =
+    await waitAppearance<HTMLElement>(() =>
+      iframe
+        ?.contentDocument
+        ?.querySelector('#chat')
+        ?.querySelector('#items')
+    );
+  
+  const observer = new MutationObserver((mutations) => {
+    const added =
+      mutations
+        .filter((it) => it.addedNodes)
+        .flatMap((it) => Array.from(it.addedNodes))
+        .map<HTMLElement>((it) => it as HTMLElement)
+        .map<ChatComment>((it) => {
+          return {
+            message: it.querySelector("#message")?.textContent,
+          } as ChatComment;
+        });
+    observe(added);
+  });
+  observer.observe(
+    target,
+    { childList: true },
+  );
+  return observer;
+};
