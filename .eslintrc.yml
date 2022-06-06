@@ -21,6 +21,9 @@ settings:
     version: "15.0"
 rules:
   "@typescript-eslint/no-empty-function": off
+  semi:
+    - error
+    - always
   indent:
     - error
     - 2
