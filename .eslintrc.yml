@@ -35,6 +35,7 @@ rules:
     - always
   react/react-in-jsx-scope: off
   react/no-unknown-property: off
+  react/jsx-key: off
   react/jsx-wrap-multilines:
     - "error"
     -
