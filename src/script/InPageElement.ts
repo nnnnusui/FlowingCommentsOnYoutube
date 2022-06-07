@@ -25,6 +25,12 @@ const waitLoaded = (
     target.addEventListener("load", () => resolve(target));
   });
 
+export const getVideo = () =>
+  waitAppearance(() =>
+    document
+      ?.querySelector<HTMLVideoElement>('.video-stream')
+  );
+
 export const getCommentRiverRenderTargetContainer = () =>
   waitAppearance<HTMLElement>(() =>
     document
@@ -57,7 +63,7 @@ export const getNewChatMessageObserver = async (
         .map<HTMLElement>((it) => it as HTMLElement)
         .map<ChatComment>((it) => {
           return {
-            message: it.querySelector("#message")?.textContent,
+            message: it.querySelector("#message")?.textContent, 
           } as ChatComment;
         });
     observe(added);
