@@ -35,6 +35,12 @@ rules:
   arrow-parens:
     - error
     - always
+  object-curly-spacing:
+    - error
+    - always
+  object-curly-newline:
+    - error
+    - always
   react/react-in-jsx-scope: off
   react/no-unknown-property: off
   react/jsx-key: off

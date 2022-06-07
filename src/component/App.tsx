@@ -1,4 +1,8 @@
-import { Component, Show, Suspense } from "solid-js";
+import {
+  Component, 
+  Show,
+  Suspense, 
+} from "solid-js";
 
 import DebugInfo from "./DebugInfo";
 import River from "./River";

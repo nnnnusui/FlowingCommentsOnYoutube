@@ -1,4 +1,6 @@
-import { Component } from "solid-js";
+import {
+  Component, 
+} from "solid-js";
 
 import styles from './DebugInfo.module.styl';
 import manifest from "../manifest.json";

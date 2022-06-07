@@ -64,7 +64,9 @@ export const getNewChatMessageObserver = async (
   });
   observer.observe(
     target,
-    { childList: true },
+    {
+      childList: true, 
+    },
   );
   return observer;
 };

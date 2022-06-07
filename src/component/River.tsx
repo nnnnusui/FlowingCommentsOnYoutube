@@ -1,7 +1,14 @@
 import ChatComment from "@/type/ChatComment";
-import { Component, createResource, createSignal, For } from "solid-js";
+import {
+  Component,
+  createResource,
+  createSignal,
+  For, 
+} from "solid-js";
 
-import {getNewChatMessageObserver} from "../script/InPageElement";
+import {
+  getNewChatMessageObserver, 
+} from "../script/InPageElement";
 
 import styles from './River.module.styl';
 

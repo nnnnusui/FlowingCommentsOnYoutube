@@ -1,6 +1,10 @@
-import { render } from "solid-js/web";
+import {
+  render, 
+} from "solid-js/web";
 import App from "./component/App";
-import {getCommentRiverRenderTargetContainer} from "./script/InPageElement";
+import {
+  getCommentRiverRenderTargetContainer, 
+} from "./script/InPageElement";
 
 import manifest from "./manifest.json";
 
