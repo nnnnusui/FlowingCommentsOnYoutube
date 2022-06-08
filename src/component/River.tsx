@@ -11,17 +11,28 @@ import {
   getNewChatMessageObserver, getVideo, 
 } from "../script/InPageElement";
 
+import Flow from "./Flow";
 import styles from './River.module.styl';
 
+type TimeStumped<T> = {
+  value: T,
+  time: number,
+}
+
 const River: Component = () => {
-  const [comments, setComments] = createSignal<ChatComment[]>([]);
+  const [comments, setComments] = createSignal<TimeStumped<ChatComment>[]>([]);
   const [videoResource] =
     createResource(() => getVideo());
   const [time, setTime] = createSignal(0);
   const [observer] =
     createResource(() =>
       getNewChatMessageObserver((added) => {
-        setComments((prev) => ([...prev, ...added]));
+        const timeStumped =
+          added.map((it) => ({
+            time: time(),
+            value: it, 
+          }));
+        setComments((prev) => ([...prev, ...timeStumped]));
       })
     );
 
@@ -35,11 +46,18 @@ const River: Component = () => {
     window.requestAnimationFrame(loop);
   });
   
+  let element!: HTMLDivElement;
   return (
-    <div class={styles.River}>
+    <div ref={element} class={styles.River}>
       <h1>River</h1>
       <p>time: {time()}</p>
-      <For each={comments()}>{(it) => it.message}</For>
+      <For each={comments()}>{(it) => (
+        <Flow
+          screenLength={element.clientWidth}
+          currentTime={time() - it.time}
+          comment={it.value}
+        />
+      )}</For>
     </div>
   );
 };
