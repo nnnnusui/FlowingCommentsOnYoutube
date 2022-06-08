@@ -16,27 +16,28 @@ const Flow: Component<{
   comment: ChatComment,
 }> = (props) => {
   const [isShown, setIsShown] = createSignal(true);
-  const [shiftedMovementedLength, setShiftedMovementedLength] = createSignal(0);
+  const [movementedProgress, setMovementedProgress] = createSignal(0);
 
   let element!: HTMLSpanElement;
   createEffect(() => {
     if (!element) return;
     const contentLength = element.clientWidth;
+    const screenLength = props.screenLength;
     const shiftLength = contentLength;
     const movementedLength = props.currentTime * pixelPerSec;
-    // const movementedRateParScreen = movementedLength / screenLength;
-    const fullLength = props.screenLength + contentLength * 2;
+    const fullLength = screenLength + contentLength * 2;
     const isShown = movementedLength < fullLength;
-    // const movementedRate = movementedLength / fullLength;
-    // const shiftRate = contentLength / screenLength;
+    const movementedRate = movementedLength / screenLength;
+    const shiftRate = shiftLength / screenLength;
     setIsShown(isShown);
-    setShiftedMovementedLength(movementedLength - shiftLength);
+    setMovementedProgress(movementedRate - shiftRate);
   });
 
   return (
     <Show when={isShown()}>
-      <span ref={element} class={styles.Flow} style={{
-        '--progress': `${shiftedMovementedLength()}px`,
+      <span ref={element} class={`${styles.Flow} flow`} style={{
+        '--length': props.screenLength,
+        '--progress': `${movementedProgress() * 100}%`,
       }}>
         {props.comment.message}
       </span>
