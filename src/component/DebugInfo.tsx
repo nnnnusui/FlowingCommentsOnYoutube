@@ -1,15 +1,25 @@
 import {
-  Component, 
+  children,
+  Component,
+  JSX, Show, 
 } from "solid-js";
 
 import styles from './DebugInfo.module.styl';
 import manifest from "../manifest.json";
 
-const DebugInfo: Component = () => {
+const DebugInfo: Component<{
+  children?: JSX.Element
+}> = (props) => {
+  const showDebugInfo = true;
+  const childs = children(() => props.children);
+  
   return (
-    <div class={styles.DebugInfo}>
-      <h1>Chrome extension `{manifest.name}` in Dev.</h1>
-    </div>
+    <Show when={showDebugInfo}>
+      <div class={styles.DebugInfo}>
+        <h1>Chrome extension `{manifest.name}` in Dev.</h1>
+        {childs()}
+      </div>
+    </Show>
   );
 };
 
