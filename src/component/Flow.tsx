@@ -14,7 +14,11 @@ const Flow: Component<{
   screenLength: number,
   currentTime: number,
   comment: ChatComment,
+  duplicatedCount: number,
+  setInInitDraw: (id: string, height: number) => void,
+  removeInInitDraw: (id: string) => void,
 }> = (props) => {
+  const [inInitialSection, setInInitialSection] = createSignal(true);
   const [isShown, setIsShown] = createSignal(true);
   const [movementedProgress, setMovementedProgress] = createSignal(0);
 
@@ -31,12 +35,22 @@ const Flow: Component<{
     const shiftRate = shiftLength / screenLength;
     setIsShown(isShown);
     setMovementedProgress(movementedRate - shiftRate);
+    setInInitialSection(movementedLength < contentLength);
+  });
+  createEffect(() => {
+    if (!element) return;
+    if (inInitialSection()) {
+      props.setInInitDraw(props.comment.id, element.clientHeight);
+    } else {
+      props.removeInInitDraw(props.comment.id);
+    }
   });
 
   return (
     <Show when={isShown()}>
-      <span ref={element} class={`${styles.Flow} flow`} style={{
+      <span ref={element} class={`${styles.Flow} flow`}style={{
         '--length': props.screenLength,
+        '--height': `${props.duplicatedCount}px`,
         '--progress': `${movementedProgress() * 100}%`,
       }}>
         {props.comment.message}

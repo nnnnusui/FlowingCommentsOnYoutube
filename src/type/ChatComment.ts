@@ -1,4 +1,5 @@
 type ChatComment = {
+  id: string,
   message: string,
 };
 

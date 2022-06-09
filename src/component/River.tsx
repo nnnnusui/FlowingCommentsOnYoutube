@@ -14,27 +14,49 @@ import {
 import Flow from "./Flow";
 import styles from './River.module.styl';
 
-type TimeStumped<T> = {
+type ScheduledToFlow<T> = {
   value: T,
-  time: number,
+  startTime: number,
+  duplicatedCount: number,
 }
 
 const River: Component = () => {
-  const [comments, setComments] = createSignal<TimeStumped<ChatComment>[]>([]);
+  const [comments, setComments] = createSignal<ScheduledToFlow<ChatComment>[]>([]);
+  const [inInitDraws, setInInitDraws] = createSignal<{
+    id: string,
+    height: number,
+  }[]>([]);
+  const setInInitDraw = (id: string, height: number) =>
+    setInInitDraws((prev) => [
+      ...prev,
+      {
+        id, height, 
+      },
+    ]);
+  const removeInInitDraw = (id: string) =>
+    setInInitDraws((prev) => prev.filter((it) => it.id != id)); 
   const [videoResource] =
     createResource(() => getVideo());
   const [time, setTime] = createSignal(0);
-  const [observer] =
-    createResource(() =>
-      getNewChatMessageObserver((added) => {
+  createResource(() =>
+    getNewChatMessageObserver((added) => {
+      const initDrawCount =
+        inInitDraws()
+          .map((it) => it.height)
+          .reduce((sum, it) => sum + it, 0);
+          
+      setComments((prev) => {
         const timeStumped =
-          added.map((it) => ({
-            time: time(),
-            value: it, 
-          }));
-        setComments((prev) => ([...prev, ...timeStumped]));
-      })
-    );
+            added.map((it) => ({
+              value: it,
+              startTime: time(),
+              inInitDraw: false,
+              duplicatedCount: initDrawCount,
+            }));
+        return [...prev, ...timeStumped];
+      });
+    })
+  );
 
   createEffect(() => {
     const video = videoResource();
@@ -54,8 +76,11 @@ const River: Component = () => {
       <For each={comments()}>{(it) => (
         <Flow
           screenLength={element.clientWidth}
-          currentTime={time() - it.time}
+          currentTime={time() - it.startTime}
+          duplicatedCount={it.duplicatedCount}
           comment={it.value}
+          setInInitDraw={setInInitDraw}
+          removeInInitDraw={removeInInitDraw}
         />
       )}</For>
     </div>

@@ -63,6 +63,7 @@ export const getNewChatMessageObserver = async (
         .map<HTMLElement>((it) => it as HTMLElement)
         .map<ChatComment>((it) => {
           return {
+            id: it.id,
             message: it.querySelector("#message")?.textContent, 
           } as ChatComment;
         });
