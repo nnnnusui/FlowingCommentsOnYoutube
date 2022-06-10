@@ -14,9 +14,7 @@ import {
 } from "@/script/InPageElement";
 
 const App: Component = () => {
-  
-  const [videoResource] =
-    createResource(() => getVideo());
+  const [videoResource] = createResource(() => getVideo());
   const [time, setTime] = createSignal(0);
   
   createEffect(() => {
