@@ -64,7 +64,7 @@ export const getNewChatMessageObserver = async (
         .map<ChatComment>((it) => {
           return {
             id: it.id,
-            message: it.querySelector("#message")?.textContent, 
+            message: it.querySelector("#message")?.innerHTML, 
           } as ChatComment;
         });
     observe(added);

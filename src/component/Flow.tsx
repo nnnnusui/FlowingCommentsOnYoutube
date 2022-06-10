@@ -48,13 +48,15 @@ const Flow: Component<{
 
   return (
     <Show when={isShown()}>
-      <span ref={element} class={`${styles.Flow} flow`}style={{
+      <span ref={element} class={`${styles.Flow} flow`}
+        style={{
         '--length': props.screenLength,
           '--height': `${props.duplicatedCount}`,
         '--progress': `${movementedProgress() * 100}%`,
-      }}>
-        {props.comment.message}
-      </span>
+        }}
+        // eslint-disable-next-line solid/no-innerhtml
+        innerHTML={props.comment.message}
+      />
     </Show>
   );
 };
