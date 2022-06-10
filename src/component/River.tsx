@@ -42,15 +42,15 @@ const River: Component<{
       const initDrawCount =
         inInitDraws()
           .map((it) => it.height)
-          .reduce((sum, it) => sum + it, 0);
+          .length;
           
       setComments((prev) => {
         const timeStumped =
-          added.map((it) => ({
+          added.map((it, index) => ({
             value: it,
             startTime: props.playbackTime(),
             inInitDraw: false,
-            duplicatedCount: initDrawCount,
+            duplicatedCount: initDrawCount + index,
           }));
         return [...prev, ...timeStumped];
       });

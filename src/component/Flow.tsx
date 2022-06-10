@@ -50,7 +50,7 @@ const Flow: Component<{
     <Show when={isShown()}>
       <span ref={element} class={`${styles.Flow} flow`}style={{
         '--length': props.screenLength,
-        '--height': `${props.duplicatedCount}px`,
+          '--height': `${props.duplicatedCount}`,
         '--progress': `${movementedProgress() * 100}%`,
       }}>
         {props.comment.message}
