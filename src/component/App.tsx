@@ -16,7 +16,9 @@ import {
   getVideo, 
 } from "@/script/InPageElement";
 
-const App: Component = () => {
+const App: Component<{
+  id: string
+}> = (props) => {
   const [videoResource] = createResource(() => getVideo());
   const [time, setTime] = createSignal(0);
   const [comments, setComments] = createSignal<Comments>([]);
@@ -68,7 +70,10 @@ const App: Component = () => {
   };
 
   return (
-    <div class={styles.App}>
+    <div
+      id={props.id}
+      class={styles.App}
+    >
       <DebugInfo>
         <p>playbackTime: {time()}</p>
         <button onClick={addDummy}>addDummyComment</button>
