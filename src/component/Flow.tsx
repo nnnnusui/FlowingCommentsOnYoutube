@@ -1,5 +1,6 @@
-import ChatComment from "@/type/ChatComment";
 import {
+  Accessor,
+  batch,
   Component,
   createEffect,
   createSignal,
@@ -8,54 +9,94 @@ import {
 
 import styles from './Flow.module.styl';
 
-const pixelPerSec = 180;
+const duration = 4;
 
 const Flow: Component<{
-  screenLength: number,
-  currentTime: number,
-  comment: ChatComment,
-  duplicatedCount: number,
-  setInInitDraw: (id: string, height: number) => void,
-  removeInInitDraw: (id: string) => void,
+  index: number,
+  content: string,
+  startTime: number,
+  playbackTime: Accessor<number>,
 }> = (props) => {
-  const [inInitialSection, setInInitialSection] = createSignal(true);
-  const [isShown, setIsShown] = createSignal(true);
+  const [isShown, setIsShown] = createSignal(false);
   const [movementedProgress, setMovementedProgress] = createSignal(0);
+  createEffect(() => {
+    const offset = props.playbackTime() - props.startTime;
+    const progress = offset / duration;
+    batch(() => {
+      setIsShown(0 <= progress && progress <= 1);
+      setMovementedProgress(progress);
+    });
+  });
 
   let element!: HTMLSpanElement;
+  const [top, setTop] = createSignal(0);
   createEffect(() => {
-    if (!element) return;
-    const contentLength = element.clientWidth;
-    const screenLength = props.screenLength;
-    const shiftLength = contentLength;
-    const movementedLength = props.currentTime * pixelPerSec;
-    const fullLength = screenLength + contentLength * 2;
-    const isShown = movementedLength < fullLength;
-    const movementedRate = movementedLength / screenLength;
-    const shiftRate = shiftLength / screenLength;
-    setIsShown(isShown);
-    setMovementedProgress(movementedRate - shiftRate);
-    setInInitialSection(movementedLength < contentLength);
-  });
-  createEffect(() => {
-    if (!element) return;
-    if (inInitialSection()) {
-      props.setInInitDraw(props.comment.id, element.clientHeight);
-    } else {
-      props.removeInInitDraw(props.comment.id);
-    }
+    isShown();
+    const screen = element?.parentElement;
+    if (screen == null) return;
+    const children = screen.children;
+    const renderings = 
+      Array.from(children)
+        .map((it) => it as HTMLElement)
+        .filter((it) => it !== element);
+    
+    const horizontalOccupiedList =
+      renderings
+        .filter((it) => {
+          const isNotAfter = it.offsetLeft + it.offsetWidth > element.offsetLeft;
+          const isNotBefore = it.offsetLeft < element.offsetLeft + element.offsetWidth;
+          return isNotAfter && isNotBefore;
+        });
+    const gaps =
+      [
+        ...horizontalOccupiedList,
+        {
+          offsetTop: screen.offsetHeight,
+          offsetHeight: 0,
+        },
+      ]
+        .sort((prev, next) => prev.offsetTop - next.offsetTop)
+        .reduce((prev, it) => {
+          return {
+            before: {
+              top: it.offsetTop + it.offsetHeight,
+            },
+            gaps: [
+              ...prev.gaps,
+              {
+                gap: it.offsetTop - prev.before.top,
+                top: prev.before.top,
+              },
+            ],
+          };
+        },{
+          before: {
+            top: 0,
+          },
+          gaps: [] as { gap: number, top: number }[],
+        })
+        .gaps;
+    
+    const top =
+      gaps
+        .find((it) => it.gap >= element.offsetHeight)
+        ?.top ?? 50;
+    setTop(top);
   });
 
   return (
     <Show when={isShown()}>
-      <span ref={element} class={`${styles.Flow} flow`}
+      <span
+        ref={element}
+        class={`${styles.Flow} flow`}
         style={{
-        '--length': props.screenLength,
-          '--height': `${props.duplicatedCount}`,
-        '--progress': `${movementedProgress() * 100}%`,
+          '--prerendered': element ? "prerendered" : "",
+          '--duration': `${duration}s`,
+          '--progress': movementedProgress(),
+          '--top': `${top()}px`,
         }}
         // eslint-disable-next-line solid/no-innerhtml
-        innerHTML={props.comment.message}
+        innerHTML={props.content}
       />
     </Show>
   );
