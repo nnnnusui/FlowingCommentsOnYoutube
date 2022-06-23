@@ -1,22 +1,5 @@
-import ChatComment from "../type/ChatComment";
-
-const waitAppearance = <T,>(
-  getThing: () => T | null | undefined,
-  interval = 100,
-  timeout = undefined,
-) => {
-  return new Promise<T>((resolve) => {
-    const expireTime = timeout && Date.now() + timeout;
-    const intervalId = window.setInterval(() => {
-      const expired = expireTime && expireTime < Date.now();
-      const thing = getThing();
-      if (expired || thing !== null) {
-        clearInterval(intervalId);
-        if (thing) resolve(thing);
-      }
-    }, interval);
-  });
-};
+import ChatComment from "@/type/ChatComment";
+import waitAppearance from "./function/waitAppearance";
 
 const waitLoaded = (
   target: HTMLIFrameElement
@@ -25,20 +8,7 @@ const waitLoaded = (
     target.addEventListener("load", () => resolve(target));
   });
 
-export const getVideo = () =>
-  waitAppearance(() =>
-    document
-      ?.querySelector<HTMLVideoElement>('.video-stream')
-  );
-
-export const getCommentRiverRenderTargetContainer = () =>
-  waitAppearance<HTMLElement>(() =>
-    document
-      ?.querySelector('#player')
-      ?.querySelector("#player-container")
-  );
-
-export const getNewChatMessageObserver = async (
+const getNewChatMessageObserver = async (
   observe: (comments: ChatComment[]) => void
 ) => {
   const iframe =
@@ -77,3 +47,5 @@ export const getNewChatMessageObserver = async (
   );
   return observer;
 };
+
+export default getNewChatMessageObserver;

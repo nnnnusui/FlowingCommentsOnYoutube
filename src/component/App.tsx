@@ -11,10 +11,8 @@ import River from "./River";
 import styles from './App.module.styl';
 
 import Comments from './type/Comments';
-import {
-  getNewChatMessageObserver,
-  getVideo, 
-} from "@/script/InPageElement";
+import getNewChatMessageObserver from "@/inPageElement/getNewChatMessageObserver";
+import getVideo from "@/inPageElement/getVideo";
 
 const App: Component<{
   id: string

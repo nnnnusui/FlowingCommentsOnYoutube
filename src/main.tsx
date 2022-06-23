@@ -2,9 +2,7 @@ import {
   render, 
 } from "solid-js/web";
 import App from "./component/App";
-import {
-  getCommentRiverRenderTargetContainer, 
-} from "./script/InPageElement";
+import getCommentRiverRenderTargetContainer from "./inPageElement/getCommentRiverRenderTargetContainer";
 import getSpaPageTransitionObserver from "./inPageElement/getSpaPageTransitionObserver";
 
 import manifest from "./manifest.json";
@@ -17,9 +15,7 @@ const main = async () => {
   const appElementId = extensionName;
   const renderApp = async () => {
     console.log(`${extensionName}: rerender <App#${appElementId} />.`);
-    const alreadyRendered = document.querySelector(`#${appElementId}`);
-    if (alreadyRendered)
-      alreadyRendered.remove();
+    document.querySelector(`#${appElementId}`)?.remove();
     render(() => <App id={appElementId} />, await getCommentRiverRenderTargetContainer());
   };
   getSpaPageTransitionObserver(renderApp);
