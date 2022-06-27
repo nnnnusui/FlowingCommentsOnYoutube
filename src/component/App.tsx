@@ -15,6 +15,7 @@ import styles from './App.module.styl';
 import Comments from './type/Comments';
 import getNewChatMessageObserver from "@/inPageElement/getNewChatMessageObserver";
 import getVideo from "@/inPageElement/getVideo";
+import settingsMenu from "./signal/settingsMenu";
 
 const App: Component<{
   id: string
@@ -90,12 +91,14 @@ const App: Component<{
           setComments={setComments}
         />
       </Suspense>
-      <SettingsMenu 
-        setDebugMenuIsShown={setDebugMenuIsShown}
-        debugMenuIsShown={debugMenuIsShown}
-        setStyleOverwrite={setStyleOverwrite}
-        styleOverwrite={styleOverwrite}
-      />
+      <Show when={settingsMenu.isShown()}>
+        <SettingsMenu 
+          setDebugMenuIsShown={setDebugMenuIsShown}
+          debugMenuIsShown={debugMenuIsShown}
+          setStyleOverwrite={setStyleOverwrite}
+          styleOverwrite={styleOverwrite}
+        />
+      </Show>
     </div>
   );
 };
