@@ -3,11 +3,13 @@ import {
   createEffect, 
   createResource, 
   createSignal,
+  Show,
   Suspense, 
 } from "solid-js";
 
 import DebugInfo from "./DebugInfo";
 import River from "./River";
+import SettingsMenu from "./SettingsMenu";
 import styles from './App.module.styl';
 
 import Comments from './type/Comments';
@@ -21,6 +23,9 @@ const App: Component<{
   const [time, setTime] = createSignal(0);
   const [comments, setComments] = createSignal<Comments>([]);
   const [commentsQueue, setCommentsQueue] = createSignal<Comments>([]);
+
+  const [debugMenuIsShown, setDebugMenuIsShown] = createSignal(false);
+  const [styleOverwrite, setStyleOverwrite] = createSignal('');
   
   createEffect(() => {
     const video = videoResource();
@@ -72,10 +77,12 @@ const App: Component<{
       id={props.id}
       class={styles.App}
     >
-      <DebugInfo>
-        <p>playbackTime: {time()}</p>
-        <button onClick={addDummy}>addDummyComment</button>
-      </DebugInfo>
+      <Show when={debugMenuIsShown()}>
+        <DebugInfo>
+          <p>playbackTime: {time()}</p>
+          <button onClick={addDummy}>addDummyComment</button>
+        </DebugInfo>
+      </Show>
       <Suspense fallback={<h1>Loading...</h1>}>
         <River
           playbackTime={time}
@@ -83,6 +90,12 @@ const App: Component<{
           setComments={setComments}
         />
       </Suspense>
+      <SettingsMenu 
+        setDebugMenuIsShown={setDebugMenuIsShown}
+        debugMenuIsShown={debugMenuIsShown}
+        setStyleOverwrite={setStyleOverwrite}
+        styleOverwrite={styleOverwrite}
+      />
     </div>
   );
 };
