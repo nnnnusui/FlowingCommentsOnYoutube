@@ -24,9 +24,6 @@ const App: Component<{
   const [time, setTime] = createSignal(0);
   const [comments, setComments] = createSignal<Comments>([]);
   const [commentsQueue, setCommentsQueue] = createSignal<Comments>([]);
-
-  const [debugMenuIsShown, setDebugMenuIsShown] = createSignal(false);
-  const [styleOverwrite, setStyleOverwrite] = createSignal('');
   
   createEffect(() => {
     const video = videoResource();
@@ -78,7 +75,7 @@ const App: Component<{
       id={props.id}
       class={styles.App}
     >
-      <Show when={debugMenuIsShown()}>
+      <Show when={settingsMenu.get.debugMenuIsShown}>
         <DebugInfo>
           <p>playbackTime: {time()}</p>
           <button onClick={addDummy}>addDummyComment</button>
@@ -92,12 +89,7 @@ const App: Component<{
         />
       </Suspense>
       <Show when={settingsMenu.isShown()}>
-        <SettingsMenu 
-          setDebugMenuIsShown={setDebugMenuIsShown}
-          debugMenuIsShown={debugMenuIsShown}
-          setStyleOverwrite={setStyleOverwrite}
-          styleOverwrite={styleOverwrite}
-        />
+        <SettingsMenu />
       </Show>
     </div>
   );
