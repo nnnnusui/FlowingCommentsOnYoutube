@@ -77,7 +77,9 @@ const App: Component<{
     >
       <Show when={settingsMenu.get.debugMenuIsShown}>
         <DebugInfo>
-          <p>playbackTime: {time()}</p>
+          <p>playback time: {time()}</p>
+          <p>comments count: {comments().length}</p>
+          <p>queued count: {commentsQueue().length}</p>
           <button onClick={addDummy}>addDummyComment</button>
         </DebugInfo>
       </Show>
