@@ -1,7 +1,9 @@
 import {
   Accessor,
   Component,
+  createSignal,
   Index,
+  onMount,
   Setter,
 } from "solid-js";
 
@@ -16,9 +18,21 @@ const River: Component<{
   comments: Accessor<Comments>,
   setComments: Setter<Comments>,
 }> = (props) => {
+  const [size, setSize] = createSignal(0);
+
   let element!: HTMLDivElement;
+  onMount(() => {
+    setSize(element.clientHeight);
+  });
+
   return (
-    <div ref={element} class={styles.River}>
+    <div
+      ref={element}
+      class={styles.River}
+      style={{
+        "--height": size(),
+      }}
+    >
       <Index each={Array.from(props.comments().values())}>{(comment, index) => {
         return (
           <Flow
