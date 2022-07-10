@@ -1,10 +1,10 @@
 import {
-  Component, 
-  createEffect, 
-  createResource, 
+  Component,
+  createEffect,
+  createResource,
   createSignal,
   Show,
-  Suspense, 
+  Suspense,
 } from "solid-js";
 
 import DebugInfo from "./DebugInfo";
@@ -24,7 +24,7 @@ const App: Component<{
   const [time, setTime] = createSignal(0);
   const [comments, setComments] = createSignal<Comments>([]);
   const [commentsQueue, setCommentsQueue] = createSignal<Comments>([]);
-  
+
   createEffect(() => {
     const video = videoResource();
     if (!video) return;
@@ -41,7 +41,7 @@ const App: Component<{
     window.requestAnimationFrame(loop);
   });
 
-  
+
   createResource(() =>
     getNewChatMessageObserver((added) => {
       setCommentsQueue((prev) => (
@@ -49,15 +49,15 @@ const App: Component<{
           [
             ...sum,
             {
-              content: it.message, 
-              startTime: time(), 
+              content: it.message,
+              startTime: time(),
             },
           ]
         ), prev)
       ));
     })
   );
-  
+
   const addDummy = () => {
     setCommentsQueue((prev) => (
       [

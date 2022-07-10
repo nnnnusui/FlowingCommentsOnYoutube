@@ -19,7 +19,7 @@ const SettingsMenu: Component= () => {
     element.style.height = `${element.scrollHeight}px`;
     settingsMenu.setStyleOverwrite(element.value);
   };
-  
+
   let styleOverwriteTextArea!: HTMLTextAreaElement;
   onMount(() => resizeTextArea(styleOverwriteTextArea));
 

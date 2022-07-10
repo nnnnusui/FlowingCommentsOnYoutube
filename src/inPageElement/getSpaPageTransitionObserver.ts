@@ -10,7 +10,7 @@ const getSpaPageTransitionObserver = (
   });
   observer.observe(document, {
     childList: true,
-    subtree: true, 
+    subtree: true,
   });
 };
 

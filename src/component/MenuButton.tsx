@@ -1,5 +1,5 @@
 import {
-  Component, createSignal, onMount, 
+  Component, createSignal, onMount,
 } from "solid-js";
 
 import styles from './MenuButton.module.styl';

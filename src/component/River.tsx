@@ -2,7 +2,7 @@ import {
   Accessor,
   Component,
   Index,
-  Setter, 
+  Setter,
 } from "solid-js";
 
 import Flow from "./Flow";
@@ -21,7 +21,7 @@ const River: Component<{
     <div ref={element} class={styles.River}>
       <Index each={Array.from(props.comments().values())}>{(comment, index) => {
         return (
-          <Flow 
+          <Flow
             index={index}
             playbackTime={props.playbackTime}
             content={comment().content}

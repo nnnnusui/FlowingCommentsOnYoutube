@@ -1,7 +1,7 @@
 import {
   children,
   Component,
-  JSX, Show, 
+  JSX, Show,
 } from "solid-js";
 
 import styles from './DebugInfo.module.styl';
@@ -12,7 +12,7 @@ const DebugInfo: Component<{
 }> = (props) => {
   const showDebugInfo = true;
   const childs = children(() => props.children);
-  
+
   return (
     <Show when={showDebugInfo}>
       <div class={styles.DebugInfo}>

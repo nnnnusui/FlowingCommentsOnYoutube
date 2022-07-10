@@ -41,11 +41,11 @@ const Flow: Component<{
     const screen = element?.parentElement;
     if (screen == null) return;
     const children = screen.children;
-    const renderings = 
+    const renderings =
       Array.from(children)
         .map((it) => it as HTMLElement)
         .filter((it) => it !== element);
-    
+
     const horizontalOccupiedList =
       renderings
         .filter((it) => {
@@ -82,7 +82,7 @@ const Flow: Component<{
           gaps: [] as { gap: number, top: number }[],
         })
         .gaps;
-    
+
     const top =
       gaps
         .find((it) => it.gap >= element.offsetHeight)

@@ -1,5 +1,5 @@
 import {
-  render, 
+  render,
 } from "solid-js/web";
 import App from "./component/App";
 import MenuButton from "./component/MenuButton";

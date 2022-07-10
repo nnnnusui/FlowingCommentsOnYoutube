@@ -1,7 +1,7 @@
 import {
   createEffect,
   createRoot,
-  createSignal, 
+  createSignal,
 } from "solid-js";
 import createLocalStore from "./createLocalStore";
 import createGlobalStyleEffect from "./createGlobalStyleEffect";
@@ -33,7 +33,7 @@ const createSettingsMenu = () => {
   createEffect(() => {
     setGlobalStyle(get.styleOverwrite);
   });
-  
+
   return {
     get,
     set,

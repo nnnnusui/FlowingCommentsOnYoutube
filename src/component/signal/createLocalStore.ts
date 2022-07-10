@@ -1,10 +1,10 @@
 import {
-  createEffect, 
+  createEffect,
 } from "solid-js";
 import {
   createStore,
   SetStoreFunction,
-  Store, 
+  Store,
 } from "solid-js/store";
 
 const createLocalStore = <T extends object>(

@@ -1,7 +1,7 @@
 import {
   createEffect,
   createSignal,
-  Setter, 
+  Setter,
 } from "solid-js";
 
 const createGlobalStyleEffect = (

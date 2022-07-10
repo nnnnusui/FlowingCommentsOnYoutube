@@ -24,7 +24,7 @@ const getNewChatMessageObserver = async (
         ?.querySelector('#chat')
         ?.querySelector('#items')
     );
-  
+
   const observer = new MutationObserver((mutations) => {
     const added =
       mutations
@@ -34,7 +34,7 @@ const getNewChatMessageObserver = async (
         .map<ChatComment>((it) => {
           return {
             id: it.id,
-            message: it.querySelector("#message")?.innerHTML, 
+            message: it.querySelector("#message")?.innerHTML,
           } as ChatComment;
         });
     observe(added);
@@ -42,7 +42,7 @@ const getNewChatMessageObserver = async (
   observer.observe(
     target,
     {
-      childList: true, 
+      childList: true,
     },
   );
   return observer;
