@@ -4,6 +4,7 @@ import {
   Component,
   createEffect,
   createSignal,
+  onMount,
   Show,
 } from "solid-js";
 
@@ -17,10 +18,15 @@ const Flow: Component<{
   startTime: number,
   playbackTime: Accessor<number>,
 }> = (props) => {
+  const [drawTime, setDrawTime] = createSignal(0);
   const [isShown, setIsShown] = createSignal(false);
   const [movementedProgress, setMovementedProgress] = createSignal(0);
+
+  onMount(() => {
+    setDrawTime(props.playbackTime());
+  });
   createEffect(() => {
-    const offset = props.playbackTime() - props.startTime;
+    const offset = props.playbackTime() - drawTime();
     const progress = offset / duration;
     batch(() => {
       setIsShown(0 <= progress && progress <= 1);
