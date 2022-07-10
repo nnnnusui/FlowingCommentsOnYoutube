@@ -1,8 +1,12 @@
 import {
+  createEffect,
   createRoot,
   createSignal, 
 } from "solid-js";
 import createLocalStore from "./createLocalStore";
+import createGlobalStyleEffect from "./createGlobalStyleEffect";
+
+import manifest from "../../manifest.json";
 
 type Settings = {
   debugMenuIsShown: boolean,
@@ -25,7 +29,11 @@ const createSettingsMenu = () => {
   const toggleDebugMenu = () => set('debugMenuIsShown', (prev) => !prev);
 
   const setStyleOverwrite = (style: string) => set('styleOverwrite', style);
-
+  const setGlobalStyle = createGlobalStyleEffect(`${manifest.name}-style`, get.styleOverwrite);
+  createEffect(() => {
+    setGlobalStyle(get.styleOverwrite);
+  });
+  
   return {
     get,
     set,
