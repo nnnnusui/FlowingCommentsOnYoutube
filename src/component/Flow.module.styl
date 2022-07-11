@@ -1,0 +1,32 @@
+.Flow
+  visibility var(--prerendered, hidden)
+
+  --top 0
+  --progress 0 // 0 ~ 1
+  --duration 4s
+  position absolute
+  white-space nowrap
+
+  font-size 5.5%
+
+  top var(--top)
+  animation-fill-mode forwards
+  animation-name rightToLeft
+  animation-timing-function linear
+
+  animation-play-state paused
+  animation-duration var(--duration)
+  animation-delay calc(var(--progress) * -1 * var(--duration))
+
+  img
+    height 1.2em
+    margin -1px 2px 1px
+    vertical-align middle
+
+@keyframes rightToLeft
+  0%
+    right 0
+    transform translateX(100%)
+  100%
+    right 100%
+    transform translateX(0)
